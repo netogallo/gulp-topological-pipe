@@ -1,0 +1,21 @@
+{
+  "name": "gulp-topological-pipe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "@types/gulp": "^3.8.32",
+    "@types/through2": "^2.0.32",
+    "@types/vinyl": "^2.0.0",
+    "gulp": "^3.9.0",
+    "through2": "^2.0.3",
+    "toposort": "^1.0.0",
+    "typescript-collections" : "^1.2.3"
+    }
+}
