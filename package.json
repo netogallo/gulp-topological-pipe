@@ -16,6 +16,9 @@
     "gulp": "^3.9.0",
     "through2": "^2.0.3",
     "toposort": "^1.0.0",
-    "typescript-collections" : "^1.2.3"
-    }
+    "typescript-collections": "^1.2.3"
+  },
+  "devDependencies": {
+    "typescript": "^2.1.5"
+  }
 }
