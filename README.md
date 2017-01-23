@@ -7,7 +7,8 @@ Stream intended to be used with gulp which is designed to run a command on multi
 Here is a small example shoing how a command would be executed on multiple projects inside a folder called *local_packages*.
 
 ```
-const topo = require(gulp-topological-packages);
+const topo = require('gulp-topological-pipe');
+const through2 = require('through2');
 
 gulp.task('for-each-package', () => {
     return topo.Packages.SortedPackages(
