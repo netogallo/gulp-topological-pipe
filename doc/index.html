@@ -68,18 +68,19 @@
 				<p>Stream intended to be used with gulp which is designed to run a command on multiple packages. The stream provides every package sorted topologically.</p>
 				<h2 id="example">Example</h2>
 				<p>Here is a small example shoing how a command would be executed on multiple projects inside a folder called <em>local_packages</em>.</p>
-				<pre><code>const topo = require(gulp-topological-packages);
+				<pre><code><span class="hljs-keyword">const</span> topo = <span class="hljs-keyword">require</span>(<span class="hljs-string">'gulp-topological-pipe'</span>);
+<span class="hljs-keyword">const</span> through2 = <span class="hljs-keyword">require</span>(<span class="hljs-string">'through2'</span>);
 
-gulp.<span class="hljs-keyword">task</span>(<span class="hljs-symbol">'for</span>-each-<span class="hljs-keyword">package</span>', () =&gt; {
+gulp.task(<span class="hljs-string">'for-each-package'</span>, () =&gt; {
     <span class="hljs-keyword">return</span> topo.Packages.SortedPackages(
     [
-        './local_packages/**/<span class="hljs-keyword">package</span>.json',      // Glob matching <span class="hljs-keyword">all</span> the <span class="hljs-keyword">package</span>.json files <span class="hljs-keyword">in</span> the local_packages directory
-        '!./local_packages/**/node_modules/**/*' // Glob to exclude things located <span class="hljs-keyword">in</span> a node_modules directory just <span class="hljs-keyword">in</span> <span class="hljs-keyword">case</span>
+        <span class="hljs-string">'./local_packages/**/package.json'</span>,      <span class="hljs-comment">// Glob matching all the package.json files in the local_packages directory</span>
+        <span class="hljs-string">'!./local_packages/**/node_modules/**/*'</span> <span class="hljs-comment">// Glob to exclude things located in a node_modules directory just in case</span>
     ]).pipe(through2(
-        {objectMode: <span class="hljs-literal">true</span>}, // Must be <span class="hljs-literal">true</span> because SortedPacakges <span class="hljs-keyword">is</span> an object stream
-        (<span class="hljs-keyword">package</span>, enc, callback =&gt; {
-            // <span class="hljs-keyword">Do</span> stuff <span class="hljs-keyword">with</span> <span class="hljs-keyword">package</span>. See: doc/classes/_package_.<span class="hljs-keyword">package</span>.html to learn about the <span class="hljs-keyword">package</span> <span class="hljs-title">fields</span>
-            callback(); // Finish this stream 
+        {objectMode: <span class="hljs-keyword">true</span>}, <span class="hljs-comment">// Must be true because SortedPacakges is an object stream</span>
+        (package, enc, callback =&gt; {
+            <span class="hljs-comment">// Do stuff with package. See: doc/classes/_package_.package.html to learn about the package fields</span>
+            callback(); <span class="hljs-comment">// Finish this stream </span>
         }));
 });
 </code></pre>
@@ -90,6 +91,9 @@ gulp.<span class="hljs-keyword">task</span>(<span class="hljs-symbol">'for</span
 				<ul>
 					<li class="globals  ">
 						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_config_.html">"<wbr>Config"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_files_.html">"<wbr>Files"</a>
