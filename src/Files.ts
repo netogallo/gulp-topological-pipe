@@ -6,6 +6,8 @@ import {Readable} from 'stream';
 import * as through2 from 'through2';
 import * as toposort from 'toposort';
 import {Dictionary} from 'typescript-collections';
+const graphSequencer = require("graph-sequencer");
+import {filter} from "lodash";
 import * as File from 'vinyl';
 
 import {defaultConfig, IConfig} from './Config';
@@ -41,6 +43,34 @@ export class Packages{
         });
     }
 
+    private static GroupPackages(packages : Dictionary<string, Package>) : Package[]
+    {
+        var edges = [];
+        var nodes = [];
+
+        packages.forEach((key, pkg) => {
+            nodes.push(key);
+            pkg.Dependencies.forEach((value, ix, arr) => {
+                if(packages.containsKey(value))
+                {
+                    edges.push([key, value]);
+                }
+            });
+        });
+
+        const temp = nodes.map((t) => [t, filter(edges, (e) => e[0] === t).map((s) => s[1])]);
+        var groups = graphSequencer({
+            graph: new Map(temp as any),
+            groups: [
+                nodes, // higher prioritylower priority
+            ],
+        });
+
+        // var sorted : string[] = toposort.array(nodes, edges);
+        return groups.chunks.map(value => value.map((v) => packages.getValue(v)));
+
+    }
+
     private static SortPackages(packages : Dictionary<string, Package>) : Package[]
     {
         var edges = [];
@@ -73,6 +103,31 @@ export class Packages{
             function(cb){
                 var sorted = Packages.SortPackages(mappings);
                 
+                if(!config.keep_sub_packages){
+                    Packages.RemoveSubPackages(mappings);
+                }
+
+                for(let pkg of sorted){
+                    this.push(pkg);
+                }
+                cb();
+            }
+        )
+    }
+
+    public static GroupedPackages(config_? : IConfig){
+        var config = config_ ? config_ : defaultConfig;
+        var mappings = new Dictionary<string, Package>();
+        return through2(
+            {objectMode: true},
+            function(chunck, enc, cb){
+                var pkg = Packages.CreatePackage(chunck);
+                mappings.setValue(pkg.Name, pkg);
+                cb();
+            },
+            function(cb){
+                var sorted = Packages.GroupPackages(mappings);
+
                 if(!config.keep_sub_packages){
                     Packages.RemoveSubPackages(mappings);
                 }
