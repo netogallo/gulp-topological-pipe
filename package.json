@@ -14,15 +14,16 @@
   },
   "license": "BSD-3-Clause",
   "dependencies": {
+    "graph-sequencer": "^2.0.0",
     "gulp": "^3.9.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.5",
     "through2": "^2.0.3",
+    "topogroup": "^1.0.1",
     "toposort": "^1.0.0",
     "typescript-collections": "^1.2.3"
   },
   "devDependencies": {
     "@types/gulp": "^3.8.32",
-    "@types/lodash": "^4.14.52",
     "@types/through2": "^2.0.32",
     "@types/vinyl": "^2.0.0",
     "typedoc": "^0.5.7",
